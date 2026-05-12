@@ -10,7 +10,7 @@ export class MockNotifier implements NotificationProvider {
     console.log(`[MockNotifier] 进度: ${jobId} - ${phase}: ${detail}`);
     return true;
   }
-  async sendBlockedAlert(phase: string, reason: string, options: string[]): Promise<boolean> {
+  async sendBlockedAlert(phase: string, reason: string, _options: string[]): Promise<boolean> {
     console.log(`[MockNotifier] 阻塞: ${phase} - ${reason}`);
     return true;
   }

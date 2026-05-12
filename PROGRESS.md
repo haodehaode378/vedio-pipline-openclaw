@@ -89,3 +89,24 @@
 - 明确区分已实现/未验证/预留接口
 - 更新 PROGRESS.md、REVIEW.md、UNVERIFIED.md
 - 飞书实际发送未验证
+
+---
+
+### v1.1 运行验证版
+
+#### Phase 13：构建修复与运行验证 ✅ (2026-05-12)
+- **构建修复**：
+  - 安装缺失依赖：vitest、eslint（v9 flat config）、typescript-eslint、@types/node 等
+  - 修复 15 个 TypeScript 类型错误（Scene 缺少 sceneIntent/layoutHint/templateSlot、CaptionSegment 缺少 style、VoiceoverTimeline 缺少 overallPace、server 变量名错误）
+  - 配置 eslint.config.js（ESLint v9 flat config 格式）
+  - TypeScript 编译零错误、Vite 构建成功、ESLint 零 error
+- **死代码清理**：
+  - 删除 V1 遗留文件：src/types/、src/server/、src/core/、src/feishu/、src/frontend/、src/remotion/、src/__tests__/
+- **测试补全**：
+  - 配置 vitest + vitest.config.ts
+  - 新增 11 个测试文件、118 个测试用例
+  - 覆盖：JobStore CRUD、TemplateRegistry、TemplateResolver 加权评分、EnhancedMockLLMProvider（卖点生成、分镜生成、类别差异化）、SRT/ASS/JSON 字幕导出、MockTTS 旁白、Notification 通知降级、Demo 数据覆盖度、Product 类型、Storyboard 类型、API 集成测试
+- **运行验证**：
+  - Express 后端在 3001 端口正常启动，12 个 API 端点全部响应正常
+  - Vite 前端开发服务器正常启动，HTML/React SPA 正常加载
+  - 生成任务端到端流程验证通过（创建→异步处理→完成）

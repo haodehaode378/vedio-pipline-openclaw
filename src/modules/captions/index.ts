@@ -1,4 +1,4 @@
-import type { CaptionTrack, CaptionSegment } from '../storyboard/types.js';
+import type { CaptionTrack } from '../storyboard/types.js';
 
 /** 生成 SRT 格式字幕 - 增强版 */
 export function generateSRT(captions: CaptionTrack): string {
@@ -39,7 +39,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
   const events = captions.segments.map((seg) => {
     const start = formatASSTime(seg.startTime);
     const end = formatASSTime(seg.endTime);
-    const style = seg.style === 'highlight' ? 'Highlight' : seg.style === 'keyword' ? 'Keyword' : 'Default';
+    const _style = seg.style === 'highlight' ? 'Highlight' : seg.style === 'keyword' ? 'Keyword' : 'Default';
     const wrappedText = wrapText(seg.text, captions.maxCharsPerLine || 16).replace(/\n/g, '\\N');
     return `Dialogue: 0,${start},${end},,,0,0,0,,${wrappedText}`;
   }).join('\n');

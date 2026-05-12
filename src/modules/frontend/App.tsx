@@ -1,7 +1,7 @@
 // Enhanced Frontend - Full v1 Template System UI
 import React, { useState, useEffect, useCallback } from 'react';
 import type { ProductInput, ProductCategory, MarketingGoal, VideoStylePreset } from '../product/types.js';
-import type { GenerationJob, GenerationStatus } from '../jobs/types.js';
+import type { GenerationJob } from '../jobs/types.js';
 import type { Storyboard, Scene } from '../storyboard/types.js';
 import type { TemplateRecommendation } from '../templates/types.js';
 
@@ -58,7 +58,7 @@ export const App: React.FC = () => {
           try {
             const tR = await fetch(`${API}/jobs/${jobId}/template`);
             setTemplateRec(await tR.json());
-          } catch {}
+          } catch { /* template not ready yet */ }
           fetchJobs();
         } else if (data.status === 'failed') {
           clearInterval(interval);
@@ -469,7 +469,7 @@ const TemplateSystemView: React.FC<{
   families: any[];
   stats: { familyCount: number; configCount: number; totalCombinations: number };
   categories: Array<{ id: string; label: string; icon: string }>;
-}> = ({ families, stats, categories }) => (
+}> = ({ families, stats, categories: _categories }) => (
   <div>
     {/* Stats */}
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 24 }}>

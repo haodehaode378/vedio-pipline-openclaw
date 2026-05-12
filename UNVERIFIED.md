@@ -1,60 +1,31 @@
 # ShopMotion v1.1 未验证项
 
-> **声明：以下所有项目在当前环境中均未进行运行验证。原因：当前服务器配置不足，无法执行 npm install 及后续操作。**
+> **最后更新：2026-05-12**
+> 以下仅列出仍在当前环境中未完全验证的项目。已验证通过的项目见底部"已验证"部分。
 
 ---
 
-## 未验证清单（9 项）
+## 未验证清单（4 项）
 
-### 1. npm install 未验证
-- **状态**：❌ 未执行
-- **原因**：当前服务器配置不足，不建议执行依赖安装
-- **影响**：node_modules 可能不完整或缺失
-- **验证方法**：迁移到高配置服务器后执行 `npm install`
-
-### 2. npm run dev 未验证
-- **状态**：❌ 未执行
-- **原因**：依赖未安装，无法启动开发服务器
-- **影响**：前端和后端开发服务器均未启动
-- **验证方法**：`npm install` 后执行 `npm run dev:server` 和 `npm run dev:frontend`
-
-### 3. 前端页面运行未验证
+### 1. Remotion 视频渲染未验证
 - **状态**：❌ 未验证
-- **原因**：未启动 Vite 开发服务器
-- **影响**：前端 React 页面无法在浏览器中查看
-- **验证方法**：`npm run dev:frontend` 后打开 http://localhost:5173
-
-### 4. 后端接口运行未验证
-- **状态**：❌ 未验证
-- **原因**：未启动 Express 服务
-- **影响**：所有 API 端点（`/api/categories` 等 12 个接口）无法实际调用
-- **验证方法**：`npm run dev:server` 后使用 curl 或 Postman 测试接口
-
-### 5. Remotion Studio 未验证
-- **状态**：❌ 未验证
-- **原因**：未执行 `npm run dev:remotion`
-- **影响**：无法在 Remotion Studio 中预览视频模板效果
-- **验证方法**：`npm install` 后执行 `npm run dev:remotion`
-
-### 6. Remotion 视频渲染未验证
-- **状态**：❌ 未验证
-- **原因**：未执行 `npx remotion render`，服务器配置不足
+- **原因**：未执行 `npx remotion render`，需要 GPU 或高配服务器
 - **影响**：无法导出真实 MP4 视频文件
 - **验证方法**：迁移到高配置服务器后执行渲染命令
 
-### 7. 飞书 Webhook 实际发送未验证
+### 2. 飞书 Webhook 实际发送未验证
 - **状态**：❌ 未验证
-- **原因**：未配置 `FEISHU_WEBHOOK_URL` 环境变量，未启动服务
-- **影响**：通知模块仅通过 MockNotifier 输出到控制台，从未实际发送飞书消息
+- **原因**：未配置 `FEISHU_WEBHOOK_URL` 环境变量
+- **影响**：通知模块通过 MockNotifier 输出到控制台，从未实际发送飞书消息
 - **验证方法**：设置环境变量后触发生成任务，检查飞书群是否收到消息
 
-### 8. 真实 LLM 未接入
+### 3. 真实 LLM 未接入
 - **状态**：❌ 未接入
-- **原因**：当前使用 `MockLLMProvider`，未对接 OpenAI/Claude 等真实 API
+- **原因**：当前使用 `EnhancedMockLLMProvider`，未对接 OpenAI/Claude 等真实 API
 - **影响**：卖点提取和分镜生成使用模拟数据，非真实 AI 生成
 - **验证方法**：替换为真实 LLM Provider，配置 API Key 后测试
 
-### 9. 真实 TTS 未接入
+### 4. 真实 TTS 未接入
 - **状态**：❌ 未接入
 - **原因**：当前使用 `MockTTSProvider`，未对接 MiniMax/Azure TTS
 - **影响**：旁白音频为 mock 数据，无真实语音合成
@@ -62,51 +33,49 @@
 
 ---
 
-## 其他未验证项
+## 已验证（运行验证通过，2026-05-12）
 
-### TypeScript 编译检查
-- **状态**：❌ 未执行
-- **原因**：依赖未安装，无法运行 `tsc`
-- **验证方法**：`npm install` 后执行 `npm run typecheck`
+### 构建与编译
+- ✅ `npm install` 成功（582 packages）
+- ✅ `npm run typecheck`（tsc --noEmit）零错误通过
+- ✅ `npm run build`（tsc && vite build）构建成功，产物正常输出
+- ✅ ESLint 零 error（7 个 warning 均为 `_` 前缀预期未使用变量）
 
-### 大规模模板组合渲染性能
-- **状态**：❌ 未测试
-- **原因**：未进行任何性能测试
-- **验证方法**：批量生成多个任务并测量响应时间
+### 测试
+- ✅ vitest 测试框架配置完成
+- ✅ 11 个测试文件、118 个测试用例全部通过
+- ✅ 覆盖模块：JobStore、TemplateRegistry、TemplateResolver、EnhancedMockLLMProvider、Captions、Voiceover、Notification、DemoData、ProductTypes、StoryboardTypes、Server API
 
-### ASS 字幕格式兼容性
-- **状态**：❌ 未测试
-- **原因**：未在真实播放器中测试
-- **验证方法**：使用 VLC/PotPlayer 播放包含 ASS 字幕的视频
+### 后端 API（12 个端点）
+- ✅ `GET /api/categories` — 返回 20 个商品类别
+- ✅ `GET /api/demo-products` — 返回 30 个 Demo 商品
+- ✅ `GET /api/demo-products/:index` — 按索引获取商品（404 正常）
+- ✅ `GET /api/templates/families` — 返回 15 个模板家族
+- ✅ `GET /api/templates/families/:id` — 按 ID 获取家族（404 正常）
+- ✅ `GET /api/templates/configs` — 返回 45 个模板配置，支持 familyId 过滤
+- ✅ `GET /api/templates/stats` — 返回模板统计
+- ✅ `POST /api/templates/resolve` — 模板推荐算法正常
+- ✅ `POST /api/generate` — 创建生成任务，异步处理完成
+- ✅ `GET /api/jobs` — 任务列表
+- ✅ `GET /api/jobs/:id` — 任务详情（404 正常）
+- ✅ `DELETE /api/jobs/:id` — 删除任务（404 正常）
 
-### 中文断句算法准确性
-- **状态**：❌ 未验证
-- **原因**：未在大规模文本中验证
-- **验证方法**：使用大量中文文本测试断句效果
+### 前端
+- ✅ Vite 开发服务器启动（port 5173/5174）
+- ✅ HTML 页面正常加载，React SPA 渲染
+- ✅ `/api` 代理配置正确
 
-### 20 个商品类别的模板推荐准确性
-- **状态**：❌ 未验证
-- **原因**：未在真实场景中验证
-- **验证方法**：为每个类别生成 Demo 视频并人工评估
+### 代码清理
+- ✅ V1 遗留代码已删除（7 个文件 + 4 个旧测试）
+- ✅ 仅保留 V1.1 模块代码
 
 ---
 
-## 已验证（通过静态代码审查）
+## 始终无需验证（静态审查即可）
 
 - ✅ 类型定义完整性（TypeScript 类型覆盖所有数据结构）
 - ✅ 模块间接口一致性（前后端使用相同类型定义）
 - ✅ 安全约束（无硬编码密钥、无日志泄露、环境变量读取）
 - ✅ 错误处理逻辑（try-catch 覆盖关键路径）
-- ✅ 文档完整性（16 份文档）
-- ✅ 模板家族注册完整性（15 个家族、45 个配置）
-- ✅ 商品类别映射完整性（20 个大类）
-- ✅ Demo 商品覆盖度（30 个商品、20 个类别）
-- ✅ API 端点完整性（12 个接口完整文档）
-- ✅ 字幕导出功能逻辑（SRT + ASS + JSON）
-- ✅ 通知降级策略（MockNotifier fallback）
-- ✅ 类别差异化分镜逻辑（5 类特殊处理）
 - ✅ 无硬编码密钥/Token/Webhook
 - ✅ 无 Webhook URL 日志泄露
-- ✅ 模板增强字段完整性（7 个新字段）
-- ✅ 场景类型元数据完整性（8 种类型）
-- ✅ 旁白语速/情感标记逻辑

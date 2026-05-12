@@ -145,7 +145,7 @@ export const CTABlock: React.FC<{
   ctaStyle: 'button' | 'banner' | 'slide-up' | 'pulse';
 }> = ({ text, theme, typography, ctaStyle }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps: _fps } = useVideoConfig();
 
   const opacity = interpolate(frame, [20, 35], [0, 1], { extrapolateRight: 'clamp' });
   const pulseScale = ctaStyle === 'pulse'

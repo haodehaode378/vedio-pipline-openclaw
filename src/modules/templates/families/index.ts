@@ -1,4 +1,4 @@
-import type { TemplateFamily, ColorTheme, TypographyScale } from '../types.js';
+import type { TemplateFamily, TypographyScale } from '../types.js';
 
 /** 通用字体配置 */
 const sansSerif: TypographyScale = {

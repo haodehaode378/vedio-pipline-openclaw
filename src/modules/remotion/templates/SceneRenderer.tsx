@@ -1,6 +1,6 @@
 // Template family style renderers - 5 distinct visual styles
 import React from 'react';
-import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, spring, Sequence } from 'remotion';
+import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, spring } from 'remotion';
 import type { Storyboard, Scene } from '../../storyboard/types.js';
 import type { TemplateConfig, ColorTheme, TypographyScale } from '../../templates/types.js';
 import {
@@ -17,7 +17,7 @@ export const SceneRenderer: React.FC<{
   totalScenes: number;
 }> = ({ scene, storyboard, config, sceneIndex, totalScenes }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps: _fps } = useVideoConfig();
   const theme = config.colorTheme;
   const typo = config.typographyScale;
 
@@ -151,6 +151,7 @@ const SellingPointScene: React.FC<{
   theme: ColorTheme; typo: TypographyScale;
   config: TemplateConfig;
 }> = ({ scene, storyboard, theme, typo, config }) => {
+  const _scene = scene;
   const sps = storyboard.product.sellingPoints.filter(
     (sp) => scene.sellingPointIds.includes(sp.id),
   );

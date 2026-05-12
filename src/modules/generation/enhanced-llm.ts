@@ -1,7 +1,6 @@
 import type { ProductInput, SellingPoint } from '../product/types.js';
 import type { Storyboard, Scene, CaptionTrack, VoiceoverTimeline, RenderConfig } from '../storyboard/types.js';
 import type { TemplateRecommendation } from '../templates/types.js';
-import { resolver } from '../templates/resolver/index.js';
 
 let idCounter = 0;
 function nextId(prefix: string): string {
@@ -428,11 +427,11 @@ export class EnhancedMockLLMProvider {
     return `你还在为${input.category}的选择而烦恼吗？别急，看看这个！`;
   }
 
-  private getHookCaption(input: ProductInput): string {
+  private getHookCaption(_input: ProductInput): string {
     return `你还在犹豫？`;
   }
 
-  private getCTATitle(input: ProductInput): string {
+  private getCTATitle(_input: ProductInput): string {
     return '立即抢购';
   }
 
@@ -478,7 +477,7 @@ export class EnhancedMockLLMProvider {
     return { segments, language: 'zh-CN', style: 'bottom-bar', density, maxCharsPerLine };
   }
 
-  private buildVoiceover(scenes: Scene[], fps: number): VoiceoverTimeline {
+  private buildVoiceover(scenes: Scene[], _fps: number): VoiceoverTimeline {
     const segments: Array<{
       id: string; text: string; startTime: number; duration: number; sceneId: string;
       pace?: 'slow' | 'normal' | 'fast';

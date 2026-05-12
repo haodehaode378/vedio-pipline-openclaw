@@ -11,7 +11,7 @@ import { registry } from '../templates/registry/index.js';
 import { categoryConfigs } from '../templates/presets/index.js';
 import { demoProducts } from '../demo-data/products/index.js';
 import { createNotifier } from '../notification/index.js';
-import { generateSRT, generateCaptionsJSON } from '../captions/index.js';
+import { generateSRT } from '../captions/index.js';
 
 const app = express();
 app.use(cors());
@@ -57,7 +57,7 @@ app.get('/api/templates/families/:id', (req: Request, res: Response) => {
 
 /** GET /api/templates/configs - 获取所有模板配置 */
 app.get('/api/templates/configs', (_req: Request, res: Response) => {
-  const familyId = req.query.familyId as string;
+  const familyId = _req.query.familyId as string;
   if (familyId) {
     res.json(registry.getConfigsByFamily(familyId));
   } else {
@@ -103,7 +103,7 @@ app.post('/api/generate', async (req: Request, res: Response) => {
     processJob(job.id, input).catch((err) => {
       console.error(`Job ${job.id} failed:`, err);
     });
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -238,9 +238,14 @@ function sleep(ms: number): Promise<void> {
 }
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`ShopMotion API v1 running on http://localhost:${PORT}`);
-  console.log(`Template families: ${registry.familyCount}, configs: ${registry.configCount}`);
-});
+
+// Skip auto-listen when imported (e.g., by tests or as a module)
+const skipListen = process.env.SKIP_SERVER_LISTEN === '1' || process.env.VITEST === 'true';
+if (!skipListen) {
+  app.listen(PORT, () => {
+    console.log(`ShopMotion API v1 running on http://localhost:${PORT}`);
+    console.log(`Template families: ${registry.familyCount}, configs: ${registry.configCount}`);
+  });
+}
 
 export default app;

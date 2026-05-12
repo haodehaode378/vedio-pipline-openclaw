@@ -2,7 +2,6 @@
 import React from 'react';
 import { AbsoluteFill, Sequence, useVideoConfig } from 'remotion';
 import type { Storyboard } from '../../storyboard/types.js';
-import type { TemplateConfig } from '../../templates/types.js';
 import { getConfigById } from '../../templates/configs/index.js';
 import { SceneRenderer } from '../templates/SceneRenderer.js';
 
@@ -89,30 +88,35 @@ const defaultStoryboard: Storyboard = {
       narration: '你还在为耳机线缠绕而烦恼吗？', caption: '耳机线又缠了？',
       visualPrompt: 'hook场景：耳机痛点', durationInSeconds: 4.5,
       layout: 'centered', sellingPointIds: [], transition: 'zoom',
+      sceneIntent: '抓住注意力，引发共鸣', layoutHint: 'centered', templateSlot: 'scene-hook',
     },
     {
       id: 'scene-reveal', type: 'product_reveal', title: '蓝牙降噪耳机',
       narration: '全新蓝牙降噪耳机，让音乐自由无拘束。', caption: '蓝牙降噪耳机',
       visualPrompt: '产品展示', durationInSeconds: 4.5,
       layout: 'centered', sellingPointIds: [], transition: 'fade',
+      sceneIntent: '展示商品，建立第一印象', layoutHint: 'centered', templateSlot: 'scene-product-reveal',
     },
     {
       id: 'scene-sp1', type: 'selling_point', title: '自适应降噪',
       narration: '智能识别环境噪音，自动调节降噪深度。', caption: '自适应降噪',
       visualPrompt: '卖点展示', durationInSeconds: 5,
       layout: 'card-grid', sellingPointIds: ['sp-1'], transition: 'slide',
+      sceneIntent: '传达核心价值，说服用户', layoutHint: 'card-grid', templateSlot: 'scene-selling-point',
     },
     {
       id: 'scene-sp2', type: 'selling_point', title: '30小时续航',
       narration: '一次充电使用30小时，告别电量焦虑。', caption: '30小时续航',
       visualPrompt: '卖点展示', durationInSeconds: 5,
       layout: 'card-grid', sellingPointIds: ['sp-2'], transition: 'slide',
+      sceneIntent: '传达核心价值，说服用户', layoutHint: 'card-grid', templateSlot: 'scene-selling-point',
     },
     {
       id: 'scene-price', type: 'price_offer', title: '限时33%OFF',
       narration: '原价899元，现在仅需599元！', caption: '¥599 原价¥899',
       visualPrompt: '价格优惠', durationInSeconds: 4,
       layout: 'centered', sellingPointIds: [], transition: 'zoom',
+      sceneIntent: '传达价格优势，营造紧迫感', layoutHint: 'centered', templateSlot: 'scene-price-offer',
     },
     {
       id: 'scene-cta', type: 'cta', title: '立即抢购',
@@ -120,19 +124,22 @@ const defaultStoryboard: Storyboard = {
       visualPrompt: 'CTA引导', durationInSeconds: 7,
       layout: 'centered', sellingPointIds: [], transition: 'fade',
       cta: '✨ 立即购买',
+      sceneIntent: '促成转化，引导行动', layoutHint: 'centered', templateSlot: 'scene-cta',
     },
   ],
   captions: {
     segments: [
-      { id: 'c1', text: '耳机线又缠了？', startTime: 0.2, endTime: 4.3, sceneId: 'scene-hook' },
-      { id: 'c2', text: '蓝牙降噪耳机', startTime: 4.7, endTime: 8.8, sceneId: 'scene-reveal' },
-      { id: 'c3', text: '自适应降噪', startTime: 9.2, endTime: 13.8, sceneId: 'scene-sp1' },
-      { id: 'c4', text: '30小时续航', startTime: 14.2, endTime: 18.8, sceneId: 'scene-sp2' },
-      { id: 'c5', text: '¥599 原价¥899', startTime: 19.2, endTime: 22.8, sceneId: 'scene-price' },
-      { id: 'c6', text: '仅售 ¥599 立即下单', startTime: 23.2, endTime: 29.8, sceneId: 'scene-cta' },
+      { id: 'c1', text: '耳机线又缠了？', startTime: 0.2, endTime: 4.3, sceneId: 'scene-hook', style: 'highlight' as const },
+      { id: 'c2', text: '蓝牙降噪耳机', startTime: 4.7, endTime: 8.8, sceneId: 'scene-reveal', style: 'default' as const },
+      { id: 'c3', text: '自适应降噪', startTime: 9.2, endTime: 13.8, sceneId: 'scene-sp1', style: 'keyword' as const },
+      { id: 'c4', text: '30小时续航', startTime: 14.2, endTime: 18.8, sceneId: 'scene-sp2', style: 'keyword' as const },
+      { id: 'c5', text: '¥599 原价¥899', startTime: 19.2, endTime: 22.8, sceneId: 'scene-price', style: 'highlight' as const },
+      { id: 'c6', text: '仅售 ¥599 立即下单', startTime: 23.2, endTime: 29.8, sceneId: 'scene-cta', style: 'highlight' as const },
     ],
     language: 'zh-CN',
     style: 'bottom-bar',
+    density: 'normal',
+    maxCharsPerLine: 18,
   },
   voiceover: {
     segments: [
@@ -145,6 +152,7 @@ const defaultStoryboard: Storyboard = {
     ],
     totalDuration: 30,
     mockAudioUrl: 'mock://tts/preview.mp3',
+    overallPace: 'normal',
   },
   renderConfig: {
     width: 1080, height: 1920, fps: 30, durationInFrames: 900,

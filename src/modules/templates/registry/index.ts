@@ -1,6 +1,6 @@
 import type { TemplateFamily, TemplateConfig } from '../types.js';
-import { templateFamilies, getFamilyById } from '../families/index.js';
-import { allTemplateConfigs, getConfigsByFamily, getConfigById } from '../configs/index.js';
+import { templateFamilies } from '../families/index.js';
+import { allTemplateConfigs } from '../configs/index.js';
 
 /** 模板注册表 */
 export class TemplateRegistry {
